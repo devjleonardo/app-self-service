@@ -4,6 +4,8 @@ import { ChevronLastIcon, ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import RestauranteHeader from "./components/header";
+import RestaurantCategories from "./components/categories";
+import { db } from "@/lib/prisma";
 
 interface RestaurantMenuPageProps {
   params: Promise<{ slug: string }>;
@@ -25,11 +27,19 @@ const RestaurantMenuPage = async ({
     return notFound();
   }
 
-  const restaurant = await getRestaurantBySlug(slug);
+  const restaurant = await db.restaurant.findUnique({
+    where: { slug },
+    include: {
+      menuCategories: {
+        include: { products: true },
+      },
+    },
+  });
 
   return (
     <div>
       <RestauranteHeader restaurant={restaurant} />
+      <RestaurantCategories restaurant={restaurant} />
     </div>
   );
 };
