@@ -1,7 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { getRestaurantBySlug } from "@/data/get-restaurant-by-slug";
-import { ChevronLastIcon, ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import RestauranteHeader from "./components/header";
 import RestaurantCategories from "./components/categories";
