@@ -20,7 +20,7 @@ interface CartSheetProps {
 }
 
 const CartSheet = ({ product }: CartSheetProps) => {
-  const { isOpen, toggleCart } = useContext(CartContext);
+  const { isOpen, toggleCart, products } = useContext(CartContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
@@ -33,6 +33,11 @@ const CartSheet = ({ product }: CartSheetProps) => {
             account and remove your data from our servers.
           </SheetDescription>
         </SheetHeader>
+        {products.map((product) => (
+          <h1 key={product.id}>
+            {product.name} - {product.quantity}
+          </h1>
+        ))}
       </SheetContent>
     </Sheet>
   );
