@@ -32,6 +32,10 @@ const RestaurantMenuPage = async ({
     },
   });
 
+  if (!restaurant) {
+    return notFound();
+  }
+
   return (
     <div>
       <RestauranteHeader restaurant={restaurant} />
