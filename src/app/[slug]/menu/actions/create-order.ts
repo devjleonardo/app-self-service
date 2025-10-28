@@ -42,7 +42,7 @@ export const createOrder = async (input: CreateOrderInput) => {
     price: productsWithPrices.find((p) => p.id === product.id)!.price,
   }));
 
-  await db.order.create({
+  const order = await db.order.create({
     data: {
       restaurantId: restaurant.id,
       consumptionMethod: input.consumptionMethod,
@@ -61,7 +61,9 @@ export const createOrder = async (input: CreateOrderInput) => {
     },
   });
   revalidatePath(`${input.slug}/orders`);
-  redirect(
-    `/${input.slug}/orders?cpf=${removeCpfPunctuation(input.customerCpf)}`,
-  );
+  // redirect(
+  //   `/${input.slug}/orders?cpf=${removeCpfPunctuation(input.customerCpf)}`,
+  // );
+
+  return order;
 };

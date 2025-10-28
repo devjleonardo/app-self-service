@@ -1,10 +1,12 @@
 "use client";
 
-import { z } from "zod";
-import { isValidCpf, removeCpfPunctuation } from "../../menu/helpers/cpf";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { PatternFormat } from "react-number-format";
+import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -13,30 +15,28 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { PatternFormat } from "react-number-format";
 import { Input } from "@/components/ui/input";
-import { use } from "react";
-import { usePathname, useRouter } from "next/navigation";
+
+import { isValidCpf, removeCpfPunctuation } from "../../menu/helpers/cpf";
 
 const formSchema = z.object({
   cpf: z
     .string()
     .trim()
-    .min(1, { message: "Por favor, insira seu CPF." })
+    .min(1, {
+      message: "O CPF é obrigatório.",
+    })
     .refine((value) => isValidCpf(value), {
-      message: "Por favor, insira um CPF válido.",
+      message: "CPF inválido.",
     }),
 });
 
@@ -67,6 +67,7 @@ const CpfForm = () => {
             Insira seu CPF abaixo para visualizar seus pedidos.
           </DrawerDescription>
         </DrawerHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -74,10 +75,10 @@ const CpfForm = () => {
               name="cpf"
               render={({ field }) => (
                 <FormItem className="px-4">
-                  <FormLabel>Seu cpf</FormLabel>
+                  <FormLabel>Seu CPF</FormLabel>
                   <FormControl>
                     <PatternFormat
-                      placeholder="Digite seu cpf..."
+                      placeholder="Digite seu CPF..."
                       format="###.###.###-##"
                       customInput={Input}
                       {...field}

@@ -1,13 +1,14 @@
 import { db } from "@/lib/prisma";
+
 import { isValidCpf, removeCpfPunctuation } from "../menu/helpers/cpf";
 import CpfForm from "./components/cpf-form";
-import OrderList from "./components/orders-list";
+import OrderList from "./components/order-list";
 
-interface OrderPageProps {
+interface OrdersPageProps {
   searchParams: Promise<{ cpf: string }>;
 }
 
-const OrderPage = async ({ searchParams }: OrderPageProps) => {
+const OrdersPage = async ({ searchParams }: OrdersPageProps) => {
   const { cpf } = await searchParams;
 
   if (!cpf) {
@@ -39,8 +40,8 @@ const OrderPage = async ({ searchParams }: OrderPageProps) => {
       },
     },
   });
-
+  
   return <OrderList orders={orders} />;
 };
 
-export default OrderPage;
+export default OrdersPage;
