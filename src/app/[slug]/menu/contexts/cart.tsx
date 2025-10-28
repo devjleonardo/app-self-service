@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { ReactNode, createContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 export interface CartProduct
   extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
@@ -12,7 +12,7 @@ export interface ICartContext {
   isOpen: boolean;
   products: CartProduct[];
   total: number;
-  totalQuantity: number
+  totalQuantity: number;
   toggleCart: () => void;
   addProduct: (product: CartProduct) => void;
   decreaseProductQuantity: (productId: string) => void;
@@ -22,9 +22,9 @@ export interface ICartContext {
 
 export const CartContext = createContext<ICartContext>({
   isOpen: false,
-  products: [],
   total: 0,
   totalQuantity: 0,
+  products: [],
   toggleCart: () => {},
   addProduct: () => {},
   decreaseProductQuantity: () => {},
@@ -52,6 +52,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const productIsAlreadyOnTheCart = products.some(
       (prevProduct) => prevProduct.id === product.id,
     );
+
     if (!productIsAlreadyOnTheCart) {
       return setProducts((prev) => [...prev, product]);
     }
@@ -64,7 +65,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             quantity: prevProduct.quantity + product.quantity,
           };
         }
-
         return prevProduct;
       });
     });
@@ -76,15 +76,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         if (prevProduct.id !== productId) {
           return prevProduct;
         }
-
         if (prevProduct.quantity === 1) {
           return prevProduct;
         }
-
-        return {
-          ...prevProduct,
-          quantity: prevProduct.quantity - 1,
-        };
+        return { ...prevProduct, quantity: prevProduct.quantity - 1 };
       });
     });
   };
@@ -95,18 +90,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         if (prevProduct.id !== productId) {
           return prevProduct;
         }
-
-        return {
-          ...prevProduct,
-          quantity: prevProduct.quantity + 1,
-        };
+        return { ...prevProduct, quantity: prevProduct.quantity + 1 };
       });
     });
   };
 
   const removeProduct = (productId: string) => {
     setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productId),
+      prevProducts.filter((prevProduct) => prevProduct.id !== productId),
     );
   };
 
@@ -115,13 +106,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       value={{
         isOpen,
         products,
-        total,
-        totalQuantity,
         toggleCart,
         addProduct,
         decreaseProductQuantity,
         increaseProductQuantity,
         removeProduct,
+        total,
+        totalQuantity,
       }}
     >
       {children}

@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   }
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_KEY;
+
   if (!webhookSecret) {
     throw new Error("Missing Stripe webhook secret key");
   }
@@ -60,7 +61,6 @@ export async function POST(request: Request) {
 
     case "charge.failed": {
       const orderId = event.data.object.metadata?.orderId;
-
       if (!orderId) {
         return NextResponse.json({
           received: true,

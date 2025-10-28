@@ -45,7 +45,7 @@ export const createStripeCheckout = async ({
   const searchParams = new URLSearchParams();
   searchParams.set("consumptionMethod", consumptionMethod);
   searchParams.set("cpf", removeCpfPunctuation(cpf));
-  
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
@@ -67,5 +67,6 @@ export const createStripeCheckout = async ({
       quantity: product.quantity,
     })),
   });
+
   return { sessionId: session.id };
 };

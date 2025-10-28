@@ -11,7 +11,6 @@ interface RestaurantPageProps {
 
 const RestaurantPage = async ({ params }: RestaurantPageProps) => {
   const { slug } = await params;
-
   const restaurant = await db.restaurant.findUnique({ where: { slug } });
 
   if (!restaurant) {
@@ -20,6 +19,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center px-6 pt-24">
+      {/* LOGO E TITULO */}
       <div className="flex flex-col items-center gap-2">
         <Image
           src={restaurant.avatarImageUrl}
@@ -39,13 +39,14 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => {
         </p>
       </div>
 
+      {/* OPÇÕES DE CONSUMO */}
       <div className="grid grid-cols-2 gap-4 pt-14">
         <ConsumptionMethodOption
           slug={slug}
           option="DINE_IN"
           buttonText="Para comer aqui"
           imageAlt="Comer aqui"
-          imageUrl="/dine_in.png"
+          imageUrl="/dine-in.png"
         />
         <ConsumptionMethodOption
           slug={slug}

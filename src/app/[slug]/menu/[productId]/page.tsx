@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { db } from "@/lib/prisma";
-import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import ProductHeader from "./components/product-header";
+
+import { db } from "@/lib/prisma";
+
 import ProductDetails from "./components/product-details";
+import ProductHeader from "./components/product-header";
 
 interface ProductPageProps {
   params: Promise<{ slug: string; productId: string }>;
@@ -27,11 +26,11 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   });
 
   if (!product) {
-    notFound();
+    return notFound();
   }
 
   if (product.restaurant.slug.toUpperCase() !== slug.toUpperCase()) {
-    notFound();
+    return notFound();
   }
 
   return (

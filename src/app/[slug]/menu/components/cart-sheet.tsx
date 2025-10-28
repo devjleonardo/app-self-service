@@ -1,25 +1,21 @@
-"use client";
+import { useContext, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
-import { Product } from "@prisma/client";
-import { useContext, useState } from "react";
+import { formatCurrency } from "@/helpers/format-currency";
+
 import { CartContext } from "../contexts/cart";
 import CartProductItem from "./cart-product-item";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { formatCurrency } from "@/helpers/format-currency";
-import FinishOrderButton from "./finish-order-dialog";
 import FinishOrderDialog from "./finish-order-dialog";
 
 const CartSheet = () => {
-  const [finishOrderDialogOpen, setFinishOrderDialogOpen] = useState(false);
-
+  const [finishOrderDialogIsOpen, setFinishOrderDialogIsOpen] = useState(false);
   const { isOpen, toggleCart, products, total } = useContext(CartContext);
 
   return (
@@ -43,14 +39,14 @@ const CartSheet = () => {
             </CardContent>
           </Card>
           <Button
-            onClick={() => setFinishOrderDialogOpen(true)}
             className="w-full rounded-full"
+            onClick={() => setFinishOrderDialogIsOpen(true)}
           >
-            Finaliar pedido
+            Finalizar pedido
           </Button>
           <FinishOrderDialog
-            open={finishOrderDialogOpen}
-            onOpenChange={setFinishOrderDialogOpen}
+            open={finishOrderDialogIsOpen}
+            onOpenChange={setFinishOrderDialogIsOpen}
           />
         </div>
       </SheetContent>
